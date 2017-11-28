@@ -55,7 +55,7 @@ class App extends Component {
           })}
         </div>
       );
-
+      //We need classes.Red here instead of just the string 'Red' to actually use the App's Red class from the css file
       btnClass = classes.Red;
     }
 
