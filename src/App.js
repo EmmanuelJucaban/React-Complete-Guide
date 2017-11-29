@@ -1,6 +1,7 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import classes from './App.css';
 import Person from './Person/Person';
+import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
 
 class App extends Component {
   state = {
@@ -45,14 +46,15 @@ class App extends Component {
       persons = (
         <div>
           {this.state.persons.map((person, index) => {
-            return <Person
-              key={person.id}
+            return <ErrorBoundary key={person.id}>
+              <Person
               name={person.name}
               age={person.age}
               click={() => this.deletePersonHandler(index)}
               changed={(e) => this.nameChangedHandler(e, person.id)}/>
+            </ErrorBoundary>
             //    alternative is this.deletePersonHandler.bind(this, index)
-          })}
+          } )}
         </div>
       );
       //We need classes.Red here instead of just the string 'Red' to actually use the App's Red class from the css file
