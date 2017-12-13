@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import Person from './Person/Person'
 
-class Persons extends Component {
+class Persons extends PureComponent {
   constructor(props) {
     super(props);
     console.log('[Persons.js] Inside Constructor', props);
@@ -18,18 +18,26 @@ class Persons extends Component {
   componentWillReceiveProps(nextProps) {
     console.log("[Update Persons.js] inside componentWillReceiveProps", nextProps);
   }
+
+  // Since this is a PureComponent,
+  //It already has this type of shouldComponentUpdate built in
   // this method should return true or false
-  shouldComponentUpdate(nextProps, nextState) {
-    console.log("[Update Persons.js] inside shouldComponentUpdate", nextProps, nextState);
-    // Do not hard code true or false here.
-    // Instead check that based on upcoming props or next state
-    // This only returns true because we used an immutable approach of updating the persons array
-    // This only checks the pointers/ root objects
-    return nextProps.persons !== this.props.persons;
-  }
+  // Basically compare all the properties in props AND state
+  // and compare them to their old versions
+  // and only continue updating if it detects differences
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   console.log("[Update Persons.js] inside shouldComponentUpdate", "nextProps:", nextProps, "nextState:", nextState);
+  //   // Do not hard code true or false here.
+  //   // Instead check that based on upcoming props or next state
+  //   // This only returns true because we used an immutable approach of updating the persons array
+  //   // This only checks the pointers/ root objects
+  //   return nextProps.persons !== this.props.persons ||
+  //     nextProps.changed || this.props.changed ||
+  //     nextProps.clicked || this.props.clicked;
+  // }
 
   componentWillUpdate(nextProps, nextState){
-    console.log("[Update Persons.js] inside componentWillUpdate", nextProps, nextState);
+    console.log("[Update Persons.js] inside componentWillUpdate", "nextProps:", nextProps, "nextState:", nextState);
   }
 
   componentDidUpdate() {

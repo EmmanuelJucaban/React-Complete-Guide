@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import classes from './App.css';
 import Persons from '../components/Persons/Persons';
 import Cockpit from '../components/Cockpit/Cockpit';
 // import Person from '../components/Persons/Person/Person';
 // import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
 
-class App extends Component {
+class App extends PureComponent {
   constructor(props) {
     super(props);
     console.log('[App.js Inside Constructor', props);
@@ -39,19 +39,33 @@ class App extends Component {
     const persons = [...this.state.persons];
     persons[personIndex] = person;
     this.setState({persons});
-  };
+  }
 
   deletePersonHandler = (personIndex) => {
     // const persons = this.state.persons.slice();
     const persons = [...this.state.persons];
     persons.splice(personIndex, 1);
     this.setState({persons});
-  };
+  }
 
   togglePersonHandler = () => {
     const doesShow = this.state.showPersons;
     this.setState({showPersons: !doesShow});
-  };
+  }
+  // This is not needed anymore because it's now a PureComponent
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   console.log("[Update App.js] inside shouldComponentUpdate", "nextProps:", nextProps, "nextState:", nextState);
+  //   return nextState.persons !== this.state.persons ||
+  //     nextState.showPersons !== this.state.showPersons;
+  // }
+
+  componentWillUpdate(nextProps, nextState){
+    console.log("[Update App.js] inside componentWillUpdate", nextProps, nextState);
+  }
+
+  componentDidUpdate() {
+    console.log("[Update App.js] inside componentDidUpdate");
+  }
 
   render() {
     console.log("Inside render");
@@ -70,6 +84,7 @@ class App extends Component {
 
     return (
         <div className={classes.App}>
+          <button onClick={() => { this.setState({showPersons: true})} }>Show Persons</button>
           <Cockpit
             showPersons={this.state.showPersons}
             persons={this.state.persons}
