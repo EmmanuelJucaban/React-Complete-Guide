@@ -18,6 +18,7 @@ class App extends PureComponent {
         {id: 2, name: 'Shane', age: 26}
       ],
       otherState: 'Some other value',
+      toggleClicked: 0,
       showPersons: false
     };
   }
@@ -52,7 +53,15 @@ class App extends PureComponent {
 
   togglePersonHandler = () => {
     const doesShow = this.state.showPersons;
-    this.setState({showPersons: !doesShow});
+    // setState can also take a function that takes in the previous state
+    // and the current props as a parameter and returns an object
+    // of the state we want to change
+    this.setState((prevState, props) => {
+      return {
+        showPersons: !doesShow,
+        toggleClicked: prevState.toggleClicked++
+      }
+    });
   }
   // This is not needed anymore because it's now a PureComponent
   // shouldComponentUpdate(nextProps, nextState) {
